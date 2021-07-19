@@ -72,3 +72,13 @@ input[type=number] {
 input.custom-tip::placeholder {
   text-align: center ;
 }
+
+.amount-container > p {
+  color: #6A9B9F ;
+  font-weight: 700 ;
+}
+
+.amount-container > h3 {
+  color: white ;
+}
+

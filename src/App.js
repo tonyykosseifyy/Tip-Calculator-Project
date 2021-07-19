@@ -1,4 +1,4 @@
-import React,{ useState ,createRef } from "react";
+import React,{ useState ,useEffect ,createRef } from "react";
 import "./App.css";
 import styled from 'styled-components' ;
 import { BiDollar } from 'react-icons/bi' ;
@@ -9,8 +9,15 @@ function App() {
   const input = createRef(null) ;
   const secInput = createRef(null) ;
   const tips = [ 5 , 10 , 15 , 25 , 50 ] ;
-  const [ billInput , setBillInput ] = useState(0) ;
-  const [ nb , setNb ] = useState(0) ;
+  const [ billInput , setBillInput ] = useState(null) ;
+  const [ nb , setNb ] = useState(null) ;
+  const [ custom , setCustom ] = useState(null) ;
+  const [ customValue , setCustomV ] = useState(null) ;
+
+  const selectTip = (item) => {
+    setCustom(item) ;
+    setCustomV(null)
+  }
   return (
     <AppWrapper>
       <Title>spli<br/>tier</Title>
@@ -20,7 +27,7 @@ function App() {
             <label htmlFor='bill'>Bill</label>
             <div className='input-container' onClick={() => input.current.focus()} >
               <BiDollar />
-              <Input ref={input} id='bill' step="0.01" max='10000' pattern=".{6,10}" maxLength={9} />
+              <Input ref={input} id='bill' step="0.01" max='10000' pattern=".{6,10}" maxLength={9} value={billInput} onChange={(e) => setBillInput(e.target.value)} />
             </div>
           </InputContainer>
 
@@ -28,9 +35,9 @@ function App() {
             <label>Select Tip % </label>
             <TipContainer>
               { tips.map((item , index) => (
-                <Tip key={index} custom={item === 0 ? true : false } >{item}%</Tip>
+                <Tip key={index} active={ custom === item ? true : false } onClick={() => selectTip(item)} >{item}%</Tip>
               ))}
-              <input type='number' placeholder='Custom' className='custom-tip' />
+              <input type='number' placeholder='Custom' className='custom-tip' value={customValue} onChange={(e) => setCustomV(e.target.value)} />
             </TipContainer>
           </InputContainer>
 
@@ -41,11 +48,31 @@ function App() {
             </div>
             <div className='input-container' onClick={() => secInput.current.focus()} style={{borderColor: nb === 0 ? '#B77D72' : '' }}>
               <MdSupervisorAccount />
-              <Input ref={secInput} id='nb' step="0.01" max='1000' pattern=".{6,10}" maxLength={9} />
+              <Input ref={secInput} id='nb' step="0.01" max='1000' pattern=".{6,10}" maxLength={9} value={nb} onChange={(e) => setNb(e.target.value)} />
             </div>
           </InputContainer>
         </FormInput>
-        <ResultInput></ResultInput>
+
+        <ResultInput>
+          <div>
+            <Amount>
+              <div className='amount-container'>
+                  <h3>Tip Amount</h3>
+                  <p>/ person</p>
+              </div>
+              <h1>$0.00</h1>
+            </Amount>
+
+            <Amount>
+              <div className='amount-container'>
+                    <h3>Total</h3>
+                    <p>/ person</p>
+                </div>
+              <h1>$0.00</h1>
+            </Amount>
+          </div>
+          <Button active={true}>Reset</Button>
+        </ResultInput>
       </Main>
     </AppWrapper>
   );
@@ -55,8 +82,25 @@ function App() {
 export default App ;
 
 
+const Button = styled.button`
+  font-weight: 700 ;
+  font-size: 24px ;
+  width: 90% ;
+  margin: 0 auto ;
+  text-transform: uppercase;
+  outline: none ;
+  border:none ;
+  border-radius: 5px ;
+  cursor: pointer ;
+  padding: 8px 0 ;
+  background-color: ${(props) => props.active ? '#9FE8DF' : '#0D686D'} ;
+  color: ${(props) => props.active ? '#004542': '#065F63' } ;
+  transition: .3s ease-in ;
+  &:hover {
+    background-color: ${(props) => props.active ? '#BFEFE9' : ''} ;
+  }
 
-
+`
 const AppWrapper = styled.div`
   background-color: #C5E4E7 ; 
   height: 100% ;
@@ -79,15 +123,36 @@ const Main = styled.main`
   display : flex ;
   background-color: white ;
   border-radius: 15px ;
-  width: 50vw ;
+  width: 70vw ;
   box-shadow: 15px 15px 20px #bad5d8, -15px -15px 20px #bad5d8;
   padding: 20px ;
 `
 
 const FormInput = styled.form`
   padding-left: 10px ;
+  flex: .5 ;
 `
-const ResultInput = styled.section``
+const ResultInput = styled.section`
+  flex : .5 ;
+  background-color: #00474B ;
+  border-radius: 15px ;
+  margin: 20px 20px 20px 40px ;
+  padding: 20px 20px ;
+  display: flex ;
+  flex-direction: column  ;
+  justify-content: space-between ;
+`
+
+const Amount = styled.div`
+  display: flex ;
+  align-items: center ;
+  justify-content: space-between ;
+  margin: 25px 0 ;
+  & > h1 {
+    color: #29C4AC;
+    font-size: 3rem ;
+  }
+`
 
 const TipContainer = styled.div`
   display: grid ;
@@ -98,8 +163,8 @@ const TipContainer = styled.div`
 `
 
 const Tip = styled.div`
-  background-color: ${(props) => props.custom ? '#F5F8FB' : '#00474B' } ;
-  color: ${(props) => props.custom ? '#597471' : 'white' } ;
+  background-color: ${(props) => props.active ? '#26C2AD' : '#00474B' } ;
+  color: ${(props) => props.active ? '#044B52' : 'white' } ;
   border-radius: 5px ;
   cursor: pointer ;
   font-size: 24px ;
@@ -109,15 +174,15 @@ const Tip = styled.div`
   font-weight: 700 ;
   transition: .3s ease-in ;
   &:hover {
-    background-color: #9FE8DF ;
-    color: black ;
+    background-color: ${(props) => props.active ? '' : '#9FE8DF' } ;
+    color: ${(props) => props.active ? '' : 'black' };
   }
 `
 
 const InputContainer = styled.div`
   display: flex ;
   flex-direction: column  ;
-  margin-bottom: 20px ;
+  margin-bottom: 30px ;
   & label {
     cursor: pointer ;
     color: #57696B ;
