@@ -13,11 +13,55 @@ function App() {
   const [ nb , setNb ] = useState(null) ;
   const [ custom , setCustom ] = useState(null) ;
   const [ customValue , setCustomV ] = useState(null) ;
-
+  console.log('bill input: ' , billInput)
+  console.log('nb: ' , nb)
+  console.log('custom: ' , custom)
+  console.log('customV: ' , customValue)
+  console.log('----------------------------------------------')
+  const [ tipAmount , setTipAmount ] = useState(0) ; 
+  const [ total , setTotal ] = useState(0) ;
   const selectTip = (item) => {
-    setCustom(item) ;
-    setCustomV(null)
+    if ( item === custom ) {
+      setCustom('') ;
+    }
+    else {
+      setCustom(item) ;
+      setCustomV('')
+    }
   }
+  const customTip = (e) => {
+    setCustomV(e.target.value) ;
+    setCustom('') ;
+  }
+  const reset = () => {
+    setCustom('') ;
+    setNb('')
+    setBillInput('') ;
+    setCustomV('') ;
+    setCustom('')
+    setTipAmount(0) ;
+    setTotal(0)
+  }
+  useEffect(() => {
+    let totalTip ;
+    let totalPerson ; 
+    if( billInput && nb && custom || billInput && nb && customValue ) {
+      if (custom) {
+      totalTip = (custom * billInput) / 100 ;
+      setTipAmount( totalTip / nb ) ;
+      totalPerson = billInput + totalTip ;
+      console.log('total ==' , totalPerson)
+      setTotal(totalPerson / nb );
+      } else if (customValue) {
+        totalTip = (customValue * billInput) / 100 ;
+        setTipAmount( totalTip / nb ) ;
+        totalPerson = billInput + totalTip ;
+        setTotal(totalPerson / nb );
+        console.log('total ==' , totalPerson)
+      }
+      
+    } else return 
+  }, [billInput, nb , custom , customValue])
   return (
     <AppWrapper>
       <Title>spli<br/>tier</Title>
@@ -37,7 +81,7 @@ function App() {
               { tips.map((item , index) => (
                 <Tip key={index} active={ custom === item ? true : false } onClick={() => selectTip(item)} >{item}%</Tip>
               ))}
-              <input type='number' placeholder='Custom' className='custom-tip' value={customValue} onChange={(e) => setCustomV(e.target.value)} />
+              <input type='number' className='custom-tip' value={customValue} onChange={(e) => customTip(e)} placeholder='Custom' />
             </TipContainer>
           </InputContainer>
 
@@ -60,7 +104,7 @@ function App() {
                   <h3>Tip Amount</h3>
                   <p>/ person</p>
               </div>
-              <h1>$0.00</h1>
+              <h1>${tipAmount.toFixed(2)}</h1>
             </Amount>
 
             <Amount>
@@ -68,10 +112,10 @@ function App() {
                     <h3>Total</h3>
                     <p>/ person</p>
                 </div>
-              <h1>$0.00</h1>
+              <h1>${total.toFixed(2)}</h1>
             </Amount>
           </div>
-          <Button active={true}>Reset</Button>
+          <Button active={true} onClick={() => reset()}>Reset</Button>
         </ResultInput>
       </Main>
     </AppWrapper>
