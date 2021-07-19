@@ -8,7 +8,12 @@ function App() {
     <AppWrapper>
       <Title>spli<br/>tier</Title>
       <Main>
-        <FormInput></FormInput>
+        <FormInput>
+          <InputContainer>
+            <label htmlFor='bill'>Bill</label>
+            <input type='text' placeholder='type here' id='bill' />
+          </InputContainer>
+        </FormInput>
         <ResultInput></ResultInput>
       </Main>
     </AppWrapper>
@@ -46,15 +51,22 @@ const Main = styled.main`
   width: 50vw ;
   height: 300px ;
   box-shadow: 15px 15px 20px #bad5d8, -15px -15px 20px #bad5d8;
+  padding: 20px ;
 `
 
-const FormInput = styled.section`
+const FormInput = styled.form`
 
 
 `
 const ResultInput = styled.section`
 
 `
+
+const InputContainer = styled.div`
+  display: flex ;
+  flex-direction: column  ;
+`
+
 
 /*
 - Strong cyan: hsl(172, 67%, 45%)
