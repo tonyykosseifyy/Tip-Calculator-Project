@@ -20,6 +20,7 @@ function App() {
   console.log('----------------------------------------------')
   const [ tipAmount , setTipAmount ] = useState(0) ; 
   const [ total , setTotal ] = useState(0) ;
+  const [ ntfirstLoad , setNtFirstLoad ] = useState(false) ;
   const selectTip = (item) => {
     if ( item === custom ) {
       setCustom('') ;
@@ -46,6 +47,7 @@ function App() {
     let totalTip ;
     let totalPerson ; 
     if( billInput && nb && custom || billInput && nb && customValue ) {
+      setNtFirstLoad(true)
       if (custom) {
       totalTip = (custom * billInput) / 100 ;
       setTipAmount( totalTip / nb ) ;
@@ -86,9 +88,9 @@ function App() {
           <InputContainer>
             <div className='nb-container'>
               <label htmlFor='nb'>Number of People</label>
-              <p style={{color:'#B77D72', fontWeight: '700'}}>Can't be zero</p>
+              <p style={{color:'#B77D72', fontWeight: '700', transition:'.3s ease',display: ntfirstLoad && !nb ? "block" :"none"}}>Can't be zero</p>
             </div>
-            <div className='input-container' onClick={() => secInput.current.focus()} style={{borderColor: nb === 0 ? '#B77D72' : '' }}>
+            <div className='input-container' onClick={() => secInput.current.focus()} style={{border: ntfirstLoad && !nb ? '3px solid #B77D72' : '' }}>
               <MdSupervisorAccount />
               <Input ref={secInput} id='nb' step="0.01" max='1000' pattern=".{6,10}" maxLength={9} value={nb} onChange={(e) => setNb(e.target.value)} />
             </div>
@@ -150,6 +152,9 @@ const AppWrapper = styled.div`
   flex-direction: column ; 
   align-items: center ;
   justify-content: center ;
+  @media (max-width : 860px) {
+    height: auto ;
+  }
 `
 
 const Title = styled.h1`
@@ -168,6 +173,15 @@ const Main = styled.main`
   width: 70vw ;
   box-shadow: 15px 15px 20px #bad5d8, -15px -15px 20px #bad5d8;
   padding: 20px ;
+  max-width: 1300px;
+  @media (max-width: 860px) {
+    flex-direction: column ;
+    width: 85vw ;
+  }
+  @media (max-width: 500px) {
+    width: 100% ;
+    padding: 10px ;
+  }
 `
 
 const FormInput = styled.form`
@@ -183,6 +197,12 @@ const ResultInput = styled.section`
   display: flex ;
   flex-direction: column  ;
   justify-content: space-between ;
+  @media (max-width: 500px) {
+    margin: 10px 10px 10px 20px ;
+  }
+  @media (max-width: 350px) {
+    margin: 10px 0px 0px 0px ;
+  }
 `
 
 const Amount = styled.div`
@@ -193,6 +213,16 @@ const Amount = styled.div`
   & > h1 {
     color: #29C4AC;
     font-size: 3rem ;
+  }
+  @media (max-width: 1230px) {
+    & > h1 {
+      font-size: 2.2rem ;
+    }
+  }
+  @media (max-width: 700px) {
+    & > h1 {
+      font-size: 1.7rem ;
+    }
   }
 `
 
@@ -215,6 +245,7 @@ const Tip = styled.div`
   justify-content: center ;
   font-weight: 700 ;
   transition: .3s ease-in ;
+  min-width: 70px ;
   &:hover {
     background-color: ${(props) => props.active ? '' : '#9FE8DF' } ;
     color: ${(props) => props.active ? '' : 'black' };
@@ -247,6 +278,7 @@ const Input = styled.input.attrs(props => ({
   font-weight: 700 ;
   border-radius: 7px ;
   grid-column: 3/4 ;
+  min-width: 0 ;
 `;
 
 /*

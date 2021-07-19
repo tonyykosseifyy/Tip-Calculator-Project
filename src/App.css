@@ -82,3 +82,12 @@ input.custom-tip::placeholder {
   color: white ;
 }
 
+input {
+  min-width: 0 ;
+}
+
+@media screen and (max-width:1130px ) {
+  input::placeholder {
+    font-size: 14px ;
+  }
+}
