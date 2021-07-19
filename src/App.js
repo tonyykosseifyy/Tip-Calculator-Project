@@ -69,8 +69,12 @@ function App() {
       <Main>
         <FormInput>
           <InputContainer>
-            <label htmlFor='bill'>Bill</label>
-            <div className='input-container' onClick={() => input.current.focus()} >
+            <div className='nb-container' >
+                <label htmlFor='nb'>Number of People</label>
+                <p 
+                style={{display: ntfirstLoad && (billInput === '') || ntfirstLoad && (billInput <= 0) ? "block" :"none"}}>Can't be zero Or negative</p>
+              </div>
+            <div className='input-container' onClick={() => input.current.focus()} style={{border: ntfirstLoad && (billInput === '') || ntfirstLoad && (billInput <= 0) ? '3px solid #B77D72' : '' }}>
               <BiDollar />
               <Input ref={input} id='bill' step="0.01" max='10000' pattern=".{6,10}" maxLength={9} value={billInput} onChange={(e) => setBillInput(e.target.value)} />
             </div>
@@ -89,9 +93,13 @@ function App() {
           <InputContainer>
             <div className='nb-container'>
               <label htmlFor='nb'>Number of People</label>
-              <p style={{color:'#B77D72', fontWeight: '700', transition:'.3s ease',display: ntfirstLoad && !nb ? "block" :"none"}}>Can't be zero</p>
+              <p 
+              style={{display: ntfirstLoad && (nb === '') || ntfirstLoad && (nb <= 0) ? "block" :"none"}}>Can't be zero Or negative</p>
             </div>
-            <div className='input-container' onClick={() => secInput.current.focus()} style={{border: ntfirstLoad && !nb ? '3px solid #B77D72' : '' }}>
+            <div 
+            className='input-container' 
+            onClick={() => secInput.current.focus()} 
+            style={{border: ntfirstLoad && (nb === '') || ntfirstLoad && (nb <= 0) ? '3px solid #B77D72' : '' }}>
               <MdSupervisorAccount />
               <Input ref={secInput} id='nb' step="0.01" max='1000' pattern=".{6,10}" maxLength={9} value={nb} onChange={(e) => setNb(e.target.value)} />
             </div>

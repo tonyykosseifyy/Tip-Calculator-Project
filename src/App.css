@@ -91,3 +91,10 @@ input {
     font-size: 14px ;
   }
 }
+
+.nb-container > p {
+  color: #C7837A;
+  font-weight: 700 ;
+  font-size: 14px ;
+  font-family: 'Space Mono', monospace;
+}
