@@ -1,3 +1,2 @@
-# react-vt6cqa
-
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-vt6cqa)
+# Tip Calculator Project
+site : https://tip-calculator-e0013.firebaseapp.com/?23050 
