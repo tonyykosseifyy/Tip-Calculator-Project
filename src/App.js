@@ -1,9 +1,10 @@
-import React from "react";
+import React,{ createRef } from "react";
 import "./App.css";
 import styled from 'styled-components' ;
-
+import { BiDollar } from 'react-icons/bi' ;
 
 function App() {
+  const input = createRef(null)
   return (
     <AppWrapper>
       <Title>spli<br/>tier</Title>
@@ -11,7 +12,10 @@ function App() {
         <FormInput>
           <InputContainer>
             <label htmlFor='bill'>Bill</label>
-            <input type='text' placeholder='type here' id='bill' />
+            <div className='input-container' onClick={() => input.current.focus()} >
+              <BiDollar />
+              <Input ref={input} id='bill' step="0.01" max='10000' pattern=".{6,10}" maxLength={9} />
+            </div>
           </InputContainer>
         </FormInput>
         <ResultInput></ResultInput>
@@ -55,18 +59,35 @@ const Main = styled.main`
 `
 
 const FormInput = styled.form`
-
-
+  padding-left: 10px ;
 `
-const ResultInput = styled.section`
-
-`
+const ResultInput = styled.section``
 
 const InputContainer = styled.div`
   display: flex ;
   flex-direction: column  ;
+  & > label {
+    cursor: pointer ;
+    color: #57696B ;
+    font-weight: 700 ;
+  }
 `
-
+const Input = styled.input.attrs(props => ({
+  type: "number",
+  placeholder: '0' ,
+}))`
+  border: none ;
+  outline: none ;
+  background-color: #F3F8FB ;
+  padding: 10px 15px;
+  font-size: 24px ;
+  text-align: right; 
+  font-family: 'Space Mono', monospace;
+  color: #0D4144 ;
+  font-weight: 700 ;
+  border-radius: 7px ;
+  grid-column: 3/4 ;
+`;
 
 /*
 - Strong cyan: hsl(172, 67%, 45%)

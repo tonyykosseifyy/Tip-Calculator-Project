@@ -8,3 +8,33 @@
 html ,body {
   height: 100% ;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.input-container {
+  position: relative ;
+  margin: 10px 0 ;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 10px 24px auto;
+  background-color: #F3F8FB ;
+  border-radius : 7px ;
+}
+
+.input-container > svg {
+  font-size: 24px ;
+  color: #5b6364 ;
+  background-color: #F3F8FB ;
+  height: 100% ;
+  grid-column: 2/3 ;
+  cursor: text
+}
