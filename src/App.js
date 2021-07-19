@@ -9,10 +9,10 @@ function App() {
   const input = createRef(null) ;
   const secInput = createRef(null) ;
   const tips = [ 5 , 10 , 15 , 25 , 50 ] ;
-  const [ billInput , setBillInput ] = useState(null) ;
-  const [ nb , setNb ] = useState(null) ;
-  const [ custom , setCustom ] = useState(null) ;
-  const [ customValue , setCustomV ] = useState(null) ;
+  const [ billInput , setBillInput ] = useState('') ;
+  const [ nb , setNb ] = useState('') ;
+  const [ custom , setCustom ] = useState('') ;
+  const [ customValue , setCustomV ] = useState('') ;
   console.log('bill input: ' , billInput)
   console.log('nb: ' , nb)
   console.log('custom: ' , custom)
@@ -49,15 +49,13 @@ function App() {
       if (custom) {
       totalTip = (custom * billInput) / 100 ;
       setTipAmount( totalTip / nb ) ;
-      totalPerson = billInput + totalTip ;
-      console.log('total ==' , totalPerson)
+      totalPerson = (billInput * 1 ) + totalTip ;
       setTotal(totalPerson / nb );
       } else if (customValue) {
         totalTip = (customValue * billInput) / 100 ;
         setTipAmount( totalTip / nb ) ;
-        totalPerson = billInput + totalTip ;
+        totalPerson = (billInput * 1 ) + totalTip ;
         setTotal(totalPerson / nb );
-        console.log('total ==' , totalPerson)
       }
       
     } else return 
