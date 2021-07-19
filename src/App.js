@@ -1,10 +1,16 @@
-import React,{ createRef } from "react";
+import React,{ useState ,createRef } from "react";
 import "./App.css";
 import styled from 'styled-components' ;
 import { BiDollar } from 'react-icons/bi' ;
+import { MdSupervisorAccount } from 'react-icons/md' ;
+
 
 function App() {
-  const input = createRef(null)
+  const input = createRef(null) ;
+  const secInput = createRef(null) ;
+  const tips = [ 5 , 10 , 15 , 25 , 50 ] ;
+  const [ billInput , setBillInput ] = useState(0) ;
+  const [ nb , setNb ] = useState(0) ;
   return (
     <AppWrapper>
       <Title>spli<br/>tier</Title>
@@ -15,6 +21,27 @@ function App() {
             <div className='input-container' onClick={() => input.current.focus()} >
               <BiDollar />
               <Input ref={input} id='bill' step="0.01" max='10000' pattern=".{6,10}" maxLength={9} />
+            </div>
+          </InputContainer>
+
+          <InputContainer>
+            <label>Select Tip % </label>
+            <TipContainer>
+              { tips.map((item , index) => (
+                <Tip key={index} custom={item === 0 ? true : false } >{item}%</Tip>
+              ))}
+              <input type='number' placeholder='Custom' className='custom-tip' />
+            </TipContainer>
+          </InputContainer>
+
+          <InputContainer>
+            <div className='nb-container'>
+              <label htmlFor='nb'>Number of People</label>
+              <p style={{color:'#B77D72', fontWeight: '700'}}>Can't be zero</p>
+            </div>
+            <div className='input-container' onClick={() => secInput.current.focus()} style={{borderColor: nb === 0 ? '#B77D72' : '' }}>
+              <MdSupervisorAccount />
+              <Input ref={secInput} id='nb' step="0.01" max='1000' pattern=".{6,10}" maxLength={9} />
             </div>
           </InputContainer>
         </FormInput>
@@ -53,7 +80,6 @@ const Main = styled.main`
   background-color: white ;
   border-radius: 15px ;
   width: 50vw ;
-  height: 300px ;
   box-shadow: 15px 15px 20px #bad5d8, -15px -15px 20px #bad5d8;
   padding: 20px ;
 `
@@ -63,14 +89,41 @@ const FormInput = styled.form`
 `
 const ResultInput = styled.section``
 
+const TipContainer = styled.div`
+  display: grid ;
+  grid-template-rows: repeat(2 , 40px) ;
+  grid-template-columns: repeat(3 ,calc(33% - 6.5px) );
+  grid-gap : 10px ;
+  padding-top: 15px ;
+`
+
+const Tip = styled.div`
+  background-color: ${(props) => props.custom ? '#F5F8FB' : '#00474B' } ;
+  color: ${(props) => props.custom ? '#597471' : 'white' } ;
+  border-radius: 5px ;
+  cursor: pointer ;
+  font-size: 24px ;
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+  font-weight: 700 ;
+  transition: .3s ease-in ;
+  &:hover {
+    background-color: #9FE8DF ;
+    color: black ;
+  }
+`
+
 const InputContainer = styled.div`
   display: flex ;
   flex-direction: column  ;
-  & > label {
+  margin-bottom: 20px ;
+  & label {
     cursor: pointer ;
     color: #57696B ;
     font-weight: 700 ;
   }
+
 `
 const Input = styled.input.attrs(props => ({
   type: "number",

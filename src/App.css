@@ -28,8 +28,12 @@ input[type=number] {
   grid-template-columns: 10px 24px auto;
   background-color: #F3F8FB ;
   border-radius : 7px ;
+  border: 3px solid transparent ;
+  transition: .3s ease-in ;
 }
-
+.input-container:hover {
+  border-color: #5FABA1 ;
+}
 .input-container > svg {
   font-size: 24px ;
   color: #5b6364 ;
@@ -37,4 +41,34 @@ input[type=number] {
   height: 100% ;
   grid-column: 2/3 ;
   cursor: text
+}
+.nb-container {
+  display: flex ;
+  justify-content: space-between ;
+  align-items: baseline ;
+}
+
+.custom-tip {
+  border: 2px solid transparent ;
+  outline: none ;
+  background-color: #F3F8FB ;
+  font-size: 24px ;
+  color: #0D4144 ;
+  font-weight: 700 ;
+  max-width: 100%; 
+  transition: .3s ease ;
+  border-radius: 5px ;
+  cursor: pointer  ; 
+  display: flex ;
+  justify-content: center ;
+  padding: 10px ;
+  text-align: right ;
+}
+
+.custom-tip:hover {
+  border: 2px solid #5FABA1 
+}
+
+input.custom-tip::placeholder {
+  text-align: center ;
 }
