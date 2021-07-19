@@ -46,7 +46,8 @@ function App() {
   useEffect(() => {
     let totalTip ;
     let totalPerson ; 
-    if( billInput && nb && custom || billInput && nb && customValue ) {
+    if( billInput > 0 && nb > 0 && custom || billInput > 0 && nb > 0 && customValue ) {
+      
       setNtFirstLoad(true)
       if (custom) {
       totalTip = (custom * billInput) / 100 ;
